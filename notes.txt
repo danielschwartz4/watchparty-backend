@@ -1,0 +1,27 @@
+1. User creates session
+2. Users can join the session (via the url)
+3. Any action by any user replicates across all Users
+4. All data should be saved to be replayed later
+
+
+
+
+
+TODO
+
+1. Allow video switching (make url enterable)
+2. Add database for replay
+3. Extra stuff
+
+
+
+
+DB
+
+User
+- id
+- name
+
+Session
+- id
+- name
