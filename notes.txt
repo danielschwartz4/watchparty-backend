@@ -9,7 +9,6 @@
 
 TODO
 
-1. Allow video switching (make url enterable)
 2. Add database for replay
 3. Extra stuff
 
@@ -21,7 +20,40 @@ DB
 User
 - id
 - name
+- sessionId
 
 Session
 - id
-- name
+- elapsedTime
+- startVideo
+
+Event
+- id
+- type (pause | seek | switch)
+- sessionIncrement
+- videoTimeStampStart
+- videoTimeStampEnd
+- timeElapsed
+- isPaused
+- userId
+
+Pause
+- id
+- userId
+- sessionIncrement
+- timeStamp
+- timeElapsed? (if timeElapsed, wait then unpause and then go to next item in stack, else go to next item in stack)
+
+Seek
+- id
+- userId
+- sessionIncrement
+- fromTimeStamp
+- toTimeStamp
+
+Switch
+- id
+- userId
+- sessionIncrement
+- timeStamp
+- newVideo
