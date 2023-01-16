@@ -10,6 +10,8 @@ const uuid_1 = __importDefault(require("uuid"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const config_1 = require("./config/config");
 const UserRoute_1 = __importDefault(require("./routes/UserRoute"));
+const SessionRoute_1 = __importDefault(require("./routes/SessionRoute"));
+const EventRoute_1 = __importDefault(require("./routes/EventRoute"));
 const app = (0, express_1.default)();
 mongoose_1.default
     .connect(config_1.config.mongo.url, {
@@ -44,6 +46,8 @@ const StartServer = () => {
         next();
     });
     app.use("/user", UserRoute_1.default);
+    app.use("/session", SessionRoute_1.default);
+    app.use("/event", EventRoute_1.default);
     app.get("/ping", (req, res, next) => {
         res.status(200).json({
             message: "pong",

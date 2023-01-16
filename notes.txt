@@ -29,13 +29,14 @@ Session
 
 Event
 - id
+- userId
+- sessionId
 - type (pause | seek | switch)
 - sessionIncrement
-- videoTimeStampStart
-- videoTimeStampEnd
-- timeElapsed
-- isPaused
-- userId
+- timeStamp
+- seekToTimeStamp?
+- pauseTimeElapsed?
+- newVideo?
 
 Pause
 - id

@@ -5,6 +5,8 @@ import uuid from "uuid";
 import mongoose from "mongoose";
 import { config } from "./config/config";
 import userRoutes from "./routes/UserRoute";
+import sessionRoutes from "./routes/SessionRoute";
+import eventRoutes from "./routes/EventRoute";
 
 const app = express();
 
@@ -58,6 +60,8 @@ const StartServer = () => {
 
   // Routes
   app.use("/user", userRoutes);
+  app.use("/session", sessionRoutes);
+  app.use("/event", eventRoutes);
 
   // Healthcheck
   app.get("/ping", (req, res, next) => {
