@@ -6,8 +6,8 @@ export interface Event {
   sessionId: string;
   type: string;
   sessionIncrement: number;
-  timeStamp: number;
   globalTimeStamp: Date;
+  timeStamp?: number;
   seekToTimeStamp?: number;
   pauseTimeElapsed?: number;
   newVideoUrl?: string;
@@ -25,8 +25,8 @@ const EventSchema: Schema = new Schema(
       required: true,
     },
     sessionIncrement: { type: Number, required: true },
-    timeStamp: { type: Number, required: true },
     globalTimeStamp: { type: Date, default: Date.now },
+    timeStamp: { type: Number, required: false },
     seekToTimeStamp: { type: Number, required: false },
     pauseTimeElapsed: { type: Number, required: false },
     newVideoUrl: { type: String, required: false },
