@@ -4,15 +4,34 @@
 4. All data should be saved to be replayed later
 
 
-
-
-
 TODO
 
 2. Add database for replay
 3. Extra stuff
 
 
+V1 ---------------------------
+
+Once paused, a timer starts until another event then stops
+1. On pause, start timer and set prevPause state {timeElapsed: 0} (on every event check if there is a pause state)
+2. 
+	- If pause event is next, stop timer change timeElapsed to time and push pause obj to db \
+				set pause state to null
+	- If switch event is next, stop timer change timeElapsed to time and push pause obj to db \
+				then create switch event and push to db \
+				set pause state to null
+	- If seek event is next, stop timer change timeElapsed to time and push pause obj to db \
+				then create seek event and push to db \
+				start timer again and set prevPause state {timeElapsed: 0} (repeat above steps)
+
+V2 -------------------
+"Pause" | "Play" | "Seek" | "Switch"
+Case: Pause -> Play
+	1. Subtract global time values and wait that long
+
+Case: Pause -> Seek -> Play
+	1. Subtract global time values (Seek.global - Pause.global) and wait that long, then seek
+	2. Subtract global time values (Play.global - Seek.global) and wait that long, then play
 
 
 DB

@@ -1,12 +1,11 @@
 import express from "express";
 import http from "http";
-import WebSocket from "ws";
-import uuid from "uuid";
 import mongoose from "mongoose";
+import WebSocket from "ws";
 import { config } from "./config/config";
-import userRoutes from "./routes/UserRoute";
-import sessionRoutes from "./routes/SessionRoute";
 import eventRoutes from "./routes/EventRoute";
+import sessionRoutes from "./routes/SessionRoute";
+import userRoutes from "./routes/UserRoute";
 
 const app = express();
 
@@ -98,11 +97,9 @@ interface WebSocketInterface extends WebSocket {
 wss.on("connection", function connection(ws: WebSocketInterface, req) {
   const sessionId = req.url?.split("/")[2];
   ws.sessionId = sessionId;
-  ws.uid = uuid.v4();
 
   ws.on("message", function incoming(data) {
     wss.clients.forEach(function each(client: WebSocketInterface) {
-      console.log(client === ws);
       if (
         client !== ws &&
         client.readyState === WebSocket.OPEN &&

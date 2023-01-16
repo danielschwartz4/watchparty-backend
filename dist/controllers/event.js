@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
 const Event_1 = __importDefault(require("../models/Event"));
 const createEvent = (req, res, _) => {
-    const { userId, sessionId, type, sessionIncrement, timeStamp, seekToTimeStamp, pauseTimeElapsed, newVideoUrl, } = req.body;
+    const { userId, sessionId, type, sessionIncrement, timeStamp, globalTimeStamp, seekToTimeStamp, pauseTimeElapsed, newVideoUrl, } = req.body;
     const event = new Event_1.default({
         id: new mongoose_1.default.Types.ObjectId(),
         userId,
@@ -14,6 +14,7 @@ const createEvent = (req, res, _) => {
         type,
         sessionIncrement,
         timeStamp,
+        globalTimeStamp,
         seekToTimeStamp,
         pauseTimeElapsed,
         newVideoUrl,
@@ -33,7 +34,8 @@ const readEventById = (req, res, _) => {
 };
 const readEventBySessionId = (req, res, _) => {
     const sessionId = req.params.sessionId;
-    return Event_1.default.findById(sessionId)
+    return Event_1.default.find({ sessionId: sessionId })
+        .sort({ globalTimeStamp: 1 })
         .then((event) => event
         ? res.status(200).json({ event })
         : res.status(404).json({ message: "not found" }))

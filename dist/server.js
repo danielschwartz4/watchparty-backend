@@ -5,13 +5,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const http_1 = __importDefault(require("http"));
-const ws_1 = __importDefault(require("ws"));
-const uuid_1 = __importDefault(require("uuid"));
 const mongoose_1 = __importDefault(require("mongoose"));
+const ws_1 = __importDefault(require("ws"));
 const config_1 = require("./config/config");
-const UserRoute_1 = __importDefault(require("./routes/UserRoute"));
-const SessionRoute_1 = __importDefault(require("./routes/SessionRoute"));
 const EventRoute_1 = __importDefault(require("./routes/EventRoute"));
+const SessionRoute_1 = __importDefault(require("./routes/SessionRoute"));
+const UserRoute_1 = __importDefault(require("./routes/UserRoute"));
 const app = (0, express_1.default)();
 mongoose_1.default
     .connect(config_1.config.mongo.url, {
@@ -71,10 +70,8 @@ wss.on("connection", function connection(ws, req) {
     var _a;
     const sessionId = (_a = req.url) === null || _a === void 0 ? void 0 : _a.split("/")[2];
     ws.sessionId = sessionId;
-    ws.uid = uuid_1.default.v4();
     ws.on("message", function incoming(data) {
         wss.clients.forEach(function each(client) {
-            console.log(client === ws);
             if (client !== ws &&
                 client.readyState === ws_1.default.OPEN &&
                 client.sessionId === ws.sessionId) {

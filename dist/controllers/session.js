@@ -6,11 +6,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
 const Session_1 = __importDefault(require("../models/Session"));
 const createSession = (req, res, _) => {
-    const { elapsedTime, startVideoUrl } = req.body;
+    const { sessionId, elapsedTime, startVideoUrl, currentVideoUrl, } = req.body;
     const session = new Session_1.default({
         id: new mongoose_1.default.Types.ObjectId(),
+        sessionId,
         elapsedTime,
         startVideoUrl,
+        currentVideoUrl,
     });
     return session
         .save()
@@ -19,7 +21,7 @@ const createSession = (req, res, _) => {
 };
 const readSession = (req, res, _) => {
     const sessionId = req.params.sessionId;
-    return Session_1.default.findById(sessionId)
+    return Session_1.default.findOne({ sessionId: sessionId })
         .then((session) => session
         ? res.status(200).json({ session })
         : res.status(404).json({ message: "not found" }))
@@ -35,12 +37,11 @@ const readAllSession = (_, res, __) => {
         res.status(500).json({ error });
     });
 };
-const updateSession = (req, res, _) => {
+const updateSession = async (req, res, _) => {
     const sessionId = req.params.sessionId;
-    return Session_1.default.findById(sessionId)
+    return Session_1.default.findOneAndUpdate({ sessionId: sessionId }, { $set: req.body }, { new: true })
         .then((session) => {
         if (session) {
-            session.set(req.body);
             return session
                 .save()
                 .then((session) => res.status(201).json({ session }))

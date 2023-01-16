@@ -3,11 +3,18 @@ import mongoose from "mongoose";
 import Session, { SessionModel } from "../models/Session";
 
 const createSession = (req: Request, res: Response, _: NextFunction) => {
-  const { elapsedTime, startVideoUrl }: SessionModel = req.body;
-  const session = new Session({
-    id: new mongoose.Types.ObjectId(),
+  const {
+    sessionId,
     elapsedTime,
     startVideoUrl,
+    currentVideoUrl,
+  }: SessionModel = req.body;
+  const session = new Session({
+    id: new mongoose.Types.ObjectId(),
+    sessionId,
+    elapsedTime,
+    startVideoUrl,
+    currentVideoUrl,
   });
   return session
     .save()
@@ -17,7 +24,7 @@ const createSession = (req: Request, res: Response, _: NextFunction) => {
 
 const readSession = (req: Request, res: Response, _: NextFunction) => {
   const sessionId = req.params.sessionId;
-  return Session.findById(sessionId)
+  return Session.findOne({ sessionId: sessionId })
     .then((session) =>
       session
         ? res.status(200).json({ session })
@@ -37,13 +44,16 @@ const readAllSession = (_: Request, res: Response, __: NextFunction) => {
     });
 };
 
-const updateSession = (req: Request, res: Response, _: NextFunction) => {
+const updateSession = async (req: Request, res: Response, _: NextFunction) => {
   const sessionId = req.params.sessionId;
 
-  return Session.findById(sessionId)
+  return Session.findOneAndUpdate(
+    { sessionId: sessionId },
+    { $set: req.body },
+    { new: true }
+  )
     .then((session) => {
       if (session) {
-        session.set(req.body);
         return session
           .save()
           .then((session) => res.status(201).json({ session }))

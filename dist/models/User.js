@@ -26,7 +26,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
 const UserSchema = new mongoose_1.Schema({
     name: { type: String, required: true },
-    sessionsId: { type: String, required: true },
+    sessionId: { type: String, required: true },
 }, {
     versionKey: false,
     timestamps: true,

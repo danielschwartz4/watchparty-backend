@@ -25,8 +25,10 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
 const SessionSchema = new mongoose_1.Schema({
-    elapsedTime: { type: String, required: true },
-    startVideoUrl: { type: Number, required: true },
+    sessionId: { type: String, required: true },
+    elapsedTime: { type: Number, required: true, default: 0 },
+    startVideoUrl: { type: String, required: true },
+    currentVideoUrl: { type: String, required: true },
 }, {
     versionKey: false,
     timestamps: true,

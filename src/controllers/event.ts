@@ -9,6 +9,7 @@ const createEvent = (req: Request, res: Response, _: NextFunction) => {
     type,
     sessionIncrement,
     timeStamp,
+    globalTimeStamp,
     seekToTimeStamp,
     pauseTimeElapsed,
     newVideoUrl,
@@ -20,6 +21,7 @@ const createEvent = (req: Request, res: Response, _: NextFunction) => {
     type,
     sessionIncrement,
     timeStamp,
+    globalTimeStamp,
     seekToTimeStamp,
     pauseTimeElapsed,
     newVideoUrl,
@@ -43,7 +45,8 @@ const readEventById = (req: Request, res: Response, _: NextFunction) => {
 
 const readEventBySessionId = (req: Request, res: Response, _: NextFunction) => {
   const sessionId = req.params.sessionId;
-  return Event.findById(sessionId)
+  return Event.find({ sessionId: sessionId })
+    .sort({ globalTimeStamp: 1 })
     .then((event) =>
       event
         ? res.status(200).json({ event })

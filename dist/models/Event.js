@@ -26,10 +26,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
 const EventSchema = new mongoose_1.Schema({
     userId: { type: String, required: true },
-    sessionsId: { type: String, required: true },
-    type: { type: String, enum: ["Pause", "Seek", "Switch"], required: true },
+    sessionId: { type: String, required: true },
+    type: {
+        type: String,
+        enum: ["Pause", "Play", "Seek", "Switch"],
+        required: true,
+    },
     sessionIncrement: { type: Number, required: true },
     timeStamp: { type: Number, required: true },
+    globalTimeStamp: { type: Date, default: Date.now },
     seekToTimeStamp: { type: Number, required: false },
     pauseTimeElapsed: { type: Number, required: false },
     newVideoUrl: { type: String, required: false },
