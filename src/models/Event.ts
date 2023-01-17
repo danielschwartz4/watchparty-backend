@@ -6,7 +6,7 @@ export interface Event {
   sessionId: string;
   type: string;
   sessionIncrement: number;
-  globalTimeStamp: Date;
+  globalTimeStamp?: Date;
   timeStamp?: number;
   seekToTimeStamp?: number;
   pauseTimeElapsed?: number;

@@ -6,6 +6,10 @@ import { config } from "./config/config";
 import eventRoutes from "./routes/EventRoute";
 import sessionRoutes from "./routes/SessionRoute";
 import userRoutes from "./routes/UserRoute";
+import { Event } from "./models/Event";
+import request from "request";
+import { CURRENT_URL } from "./constants";
+import router from "./routes/EventRoute";
 
 const app = express();
 
@@ -97,6 +101,32 @@ interface WebSocketInterface extends WebSocket {
 wss.on("connection", function connection(ws: WebSocketInterface, req) {
   const sessionId = req.url?.split("/")[2];
   ws.sessionId = sessionId;
+  ws.on("close", function close(c: any) {
+    console.log("client disconnected");
+    if (wss.clients.size == 0) {
+      const params: Event = {
+        userId: "end",
+        sessionId: sessionId as string,
+        type: "Pause",
+        sessionIncrement: 1,
+        timeStamp: 1,
+      };
+
+      const options = {
+        uri: `${CURRENT_URL}/event/create`,
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        json: params,
+      };
+      request(options, (error, response, body) => {
+        if (!error && response.statusCode === 201) {
+          console.log(body);
+        }
+      });
+    }
+  });
 
   ws.on("message", function incoming(data) {
     wss.clients.forEach(function each(client: WebSocketInterface) {

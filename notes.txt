@@ -34,6 +34,16 @@ Case: Pause -> Seek -> Play
 	2. Subtract global time values (Play.global - Seek.global) and wait that long, then play
 
 
+TODO:
+1. Test replay with multiple clients
+2. End session when all clients logged off (end event when last client logs off)
+3. Pause once End is hit
+
+
+If I had more time, I would've:
+1. When someone joins the session I would attach to the message sent through the web socket a "timeSent" field
+		and record the time received as well, then add that latency time to the point at which the new attendee starts their video
+
 DB
 
 User
